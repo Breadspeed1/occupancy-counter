@@ -30,11 +30,15 @@ float CircularBuffer::pop() {
 }
 
 float CircularBuffer::at(int i) {
+    if (i >= size) throw "Cannot access index out of range";
     int index = wrap(start + i);
-    if (index >= length) throw "Cannot access index out of range";
-    return data[i];
+    return data[index];
 }
 
 bool CircularBuffer::isEmpty() {
     return size < 1;
+}
+
+int CircularBuffer::count() {
+    return size;
 }

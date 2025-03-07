@@ -14,4 +14,5 @@ class CircularBuffer {
         float pop();
         float at(int i);
         bool isEmpty();
+        int count();
 };
