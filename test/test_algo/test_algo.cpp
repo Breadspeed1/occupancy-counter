@@ -6,7 +6,7 @@ void setUp(void) {}
 void tearDown(void) {}
 
 void test_push() {
-    float data[1];
+    float data[1] = {-1.0};
     CircularBuffer buf(data, 1);
 
     buf.push(0.0);
@@ -17,7 +17,7 @@ void test_push() {
 }
 
 void test_push_multiple() {
-    float data[3];
+    float data[3] = {-1.0, -1.0, -1.0};
     CircularBuffer buf(data, 3);
 
     buf.push(0.0);
@@ -32,14 +32,12 @@ void test_push_multiple() {
 }
 
 void test_push_over() {
-    float data[2];
+    float data[2] = {-1.0, -1.0};
     CircularBuffer buf(data, 2);
 
     buf.push(1.0);
     buf.push(2.0);
     buf.push(3.0);
-
-    float exp[2] = {3.0, 2.0};
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(2, buf.count(), "Incorrect Size");
 
@@ -48,39 +46,94 @@ void test_push_over() {
 }
 
 void test_pop() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+    float data[1] = {-1.0};
+    CircularBuffer buf(data, 1);
+
+    buf.push(1.0);
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0, buf.pop());
 }
 
 void test_pop_empty() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+    float data[1] = {-1.0};
+    CircularBuffer buf(data, 1);
+
+    try {
+        buf.pop();
+        TEST_FAIL_MESSAGE("Popping on empty buf should throw");
+    }
+    catch (...) {}
 }
 
 void test_pop_multiple() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
-}
+    float data[2] = {-1.0, -1.0};
+    CircularBuffer buf(data, 2);
 
-void test_pop_throw() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+    buf.push(1.0);
+    buf.push(2.0);
+    buf.push(3.0);
+
+    TEST_ASSERT_EQUAL_FLOAT(3.0, buf.pop());
+    TEST_ASSERT_EQUAL_FLOAT(2.0, buf.pop());
 }
 
 void test_at_initial() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+    float data[1] = {-1.0};
+    CircularBuffer buf(data, 1);
+
+    try {
+        buf.at(0);
+        TEST_FAIL_MESSAGE("Accessing index 0 of empty buffer should throw");
+    }
+    catch (...) {}
 }
 
 void test_at_out_of_range() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+    float data[2] = {-1.0, -1.0};
+    CircularBuffer buf(data, 2);
+
+    buf.push(0);
+
+    try {
+        buf.at(1);
+        TEST_FAIL_MESSAGE("Accessing at index 1 of buffer with size 1 should throw");
+    }
+    catch (...) {}
+
+    try {
+        buf.at(-1);
+        TEST_FAIL_MESSAGE("Accessing at index -1 of buffer with size 1 should throw");
+    }
+    catch (...) {}
 }
 
-void test_at_after_loop() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+void test_at_negative() {
+    float data[3] = {-1.0, -1.0, -1.0};
+    CircularBuffer buf(data, 3);
+
+    buf.push(0);
+    buf.push(1);
+    buf.push(2);
+    buf.push(4);
+
+    TEST_ASSERT_EQUAL_FLOAT(1, buf.at(0));
+    TEST_ASSERT_EQUAL_FLOAT(4, buf.at(-1));
 }
 
 void test_is_empty() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+    float data[1];
+    CircularBuffer buf(data, 1);
+
+    TEST_ASSERT(buf.isEmpty());
 }
 
-void test_is_empty_full() {
-    TEST_FAIL_MESSAGE("TEST NOT IMPLEMENTED");
+void test_is_not_empty() {
+    float data[1];
+    CircularBuffer buf(data, 1);
+
+    buf.push(1);
+
+    TEST_ASSERT_FALSE(buf.isEmpty());
 }
 
 int main( int argc, char **argv) {
@@ -93,14 +146,13 @@ int main( int argc, char **argv) {
     RUN_TEST(test_pop);
     RUN_TEST(test_pop_empty);
     RUN_TEST(test_pop_multiple);
-    RUN_TEST(test_pop_throw);
 
     RUN_TEST(test_at_initial);
     RUN_TEST(test_at_out_of_range);
-    RUN_TEST(test_at_after_loop);
+    RUN_TEST(test_at_negative);
 
     RUN_TEST(test_is_empty);
-    RUN_TEST(test_is_empty_full);
+    RUN_TEST(test_is_not_empty);
 
     UNITY_END();
 }

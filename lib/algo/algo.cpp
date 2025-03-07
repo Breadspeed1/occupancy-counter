@@ -23,14 +23,13 @@ void CircularBuffer::push(float value) {
 
 float CircularBuffer::pop() {
     if (isEmpty()) throw "Cannot pop on empty buffer";
-    int i = wrap(start + size - 1);
-    size--;
+    int i = wrap(start + --size);
 
     return data[i];
 }
 
 float CircularBuffer::at(int i) {
-    if (i >= size) throw "Cannot access index out of range";
+    if (i >= size || -i >= size) throw "Cannot access index out of range";
     int index = wrap(start + i);
     return data[index];
 }
