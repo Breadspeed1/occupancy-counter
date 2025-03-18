@@ -136,6 +136,40 @@ void test_is_not_empty() {
     TEST_ASSERT_FALSE(buf.isEmpty());
 }
 
+void test_avg_single() {
+    float data[1];
+    CircularBuffer buf(data, 1);
+
+    buf.push(1);
+
+    TEST_ASSERT_EQUAL_FLOAT(buf.avg(), 1);
+}
+
+void test_avg_mult() {
+    float data[2];
+    CircularBuffer buf(data, 2);
+
+    buf.push(1);
+    
+    TEST_ASSERT_EQUAL_FLOAT(buf.avg(), 1);
+
+    buf.push(3);
+
+    TEST_ASSERT_EQUAL_FLOAT(buf.avg(), 2);
+}
+
+void test_avg_pop() {
+    float data[2];
+    CircularBuffer buf(data, 2);
+
+    buf.push(1);
+
+    buf.push(3);
+    buf.pop();
+
+    TEST_ASSERT_EQUAL_FLOAT(buf.avg(), 1);
+}
+
 int main( int argc, char **argv) {
     UNITY_BEGIN();
 
@@ -153,6 +187,10 @@ int main( int argc, char **argv) {
 
     RUN_TEST(test_is_empty);
     RUN_TEST(test_is_not_empty);
+
+    RUN_TEST(test_avg_single);
+    RUN_TEST(test_avg_mult);
+    RUN_TEST(test_avg_pop);
 
     UNITY_END();
 }

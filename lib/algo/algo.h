@@ -5,6 +5,7 @@ class CircularBuffer {
         int start = 0;
         int length;
         float* data;
+        float sum;
 
         int wrap(int index);
 
@@ -15,4 +16,5 @@ class CircularBuffer {
         float at(int i);
         bool isEmpty();
         int count();
+        float avg();
 };
