@@ -35,6 +35,9 @@ class DetectionAlgorithm {
         CircularBuffer largeBuf;
         CircularBuffer tempBuf;
         int evalCounter = 0;
+
+        int entranceCount = 0;
+        int exitCount = 0;
     
     public:
         DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), tempBuf(tempData, tdlen), settings(settings) {}
