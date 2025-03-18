@@ -4,12 +4,12 @@ class CircularBuffer {
         int start = 0;
         int length;
         float* data;
-        float sum;
+        float sum = 0;
 
         int wrap(int index);
 
     public:
-        CircularBuffer(float* data, int length);
+        CircularBuffer(float* data, int length): data(data), length(length) {};
         void push(float value);
         float pop();
         float at(int i);
@@ -37,5 +37,5 @@ class DetectionAlgorithm {
         int evalCounter = 0;
     
     public:
-        DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings);
+        DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), tempBuf(tempData, tdlen), settings(settings) {}
 };
