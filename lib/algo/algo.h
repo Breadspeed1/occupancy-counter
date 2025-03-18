@@ -1,4 +1,3 @@
-
 class CircularBuffer {
     private:
         int size = 0;
@@ -17,4 +16,26 @@ class CircularBuffer {
         bool isEmpty();
         int count();
         float avg();
+        int len();
+};
+
+enum DetectionState {
+    RISING,
+    FALLING,
+    IDLE,
+};
+
+struct DetectionSettings {
+
+};
+
+class DetectionAlgorithm {
+    private:
+        DetectionSettings settings;
+        CircularBuffer largeBuf;
+        CircularBuffer tempBuf;
+        int evalCounter = 0;
+    
+    public:
+        DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings);
 };

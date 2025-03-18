@@ -54,3 +54,7 @@ int CircularBuffer::count() {
 float CircularBuffer::avg() {
     return sum / size;
 }
+
+int CircularBuffer::len() {
+    return length;
+}
