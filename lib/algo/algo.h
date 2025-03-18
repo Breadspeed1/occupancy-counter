@@ -40,6 +40,8 @@ class DetectionAlgorithm {
         int exitCount = 0;
 
         DetectionState currentState = DetectionState::IDLE;
+
+        bool evalState();
     
     public:
         DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), tempBuf(tempData, tdlen), settings(settings) {}

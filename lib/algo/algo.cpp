@@ -23,3 +23,7 @@ void DetectionAlgorithm::reset() {
 bool DetectionAlgorithm::push(float measurement) {
     throw "not implemented";
 }
+
+bool DetectionAlgorithm::evalState() {
+    throw "not implemented";
+}
