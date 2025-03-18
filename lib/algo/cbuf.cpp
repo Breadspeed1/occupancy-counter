@@ -8,12 +8,6 @@ int CircularBuffer::wrap(int index) {
     return index;
 }
 
-CircularBuffer::CircularBuffer(float* data, int length) {
-    this->data = data;
-    this->length = length;
-    this->sum = 0;
-}
-
 void CircularBuffer::push(float value) {
     int i = wrap(start + size);
     float temp = data[i];
