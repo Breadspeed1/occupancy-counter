@@ -11,19 +11,28 @@ int CircularBuffer::wrap(int index) {
 CircularBuffer::CircularBuffer(float* data, int length) {
     this->data = data;
     this->length = length;
+    this->sum = 0;
 }
 
 void CircularBuffer::push(float value) {
     int i = wrap(start + size);
+    float temp = data[i];
     data[i] = value;
 
-    if (size < length) size++;
-    else start = wrap(start + 1);
+    if (size < length) {
+        sum += value;
+        size++;
+    }
+    else {
+        sum += value - temp;
+        start = wrap(start + 1);
+    }
 }
 
 float CircularBuffer::pop() {
     if (isEmpty()) throw "Cannot pop on empty buffer";
     int i = wrap(start + --size);
+    sum -= data[i];
 
     return data[i];
 }
@@ -40,4 +49,8 @@ bool CircularBuffer::isEmpty() {
 
 int CircularBuffer::count() {
     return size;
+}
+
+float CircularBuffer::avg() {
+    return sum / size;
 }
