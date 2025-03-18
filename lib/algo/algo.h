@@ -17,6 +17,7 @@ class CircularBuffer {
         int count();
         float avg();
         int len();
+        void clear();
 };
 
 enum DetectionState {
@@ -26,7 +27,7 @@ enum DetectionState {
 };
 
 struct DetectionSettings {
-
+    float changeMargin;
 };
 
 class DetectionAlgorithm {
@@ -41,7 +42,7 @@ class DetectionAlgorithm {
 
         DetectionState currentState = DetectionState::IDLE;
 
-        bool evalState();
+        DetectionState evalState();
     
     public:
         DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), tempBuf(tempData, tdlen), settings(settings) {}

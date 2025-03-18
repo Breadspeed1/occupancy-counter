@@ -17,13 +17,19 @@ int DetectionAlgorithm::getCurrentOccupancy() {
 }
 
 void DetectionAlgorithm::reset() {
-    throw "not implemented";
+    this->currentState = DetectionState::IDLE;
 }
 
 bool DetectionAlgorithm::push(float measurement) {
     throw "not implemented";
 }
 
-bool DetectionAlgorithm::evalState() {
-    throw "not implemented";
+DetectionState DetectionAlgorithm::evalState() {
+    if (tempBuf.avg() > settings.changeMargin) {
+        return DetectionState::RISING;
+    }
+    else if (tempBuf.avg() < -settings.changeMargin) {
+        return DetectionState::FALLING;
+    }
+    return DetectionState::IDLE;
 }

@@ -37,6 +37,11 @@ float CircularBuffer::at(int i) {
     return data[index];
 }
 
+void CircularBuffer::clear() {
+    size = 0;
+    start = 0;
+}
+
 bool CircularBuffer::isEmpty() {
     return size < 1;
 }
