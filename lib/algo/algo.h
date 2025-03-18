@@ -38,7 +38,18 @@ class DetectionAlgorithm {
 
         int entranceCount = 0;
         int exitCount = 0;
+
+        DetectionState currentState = DetectionState::IDLE;
     
     public:
         DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), tempBuf(tempData, tdlen), settings(settings) {}
+
+        DetectionState getCurrentState();
+        int getEntranceCount();
+        int getExitCount();
+        int getCurrentOccupancy();
+
+        void reset();
+
+        bool push(float measurement);
 };
