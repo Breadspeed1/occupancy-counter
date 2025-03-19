@@ -27,32 +27,44 @@ enum DetectionState {
 };
 
 struct DetectionSettings {
-    float changeMargin;
+    //minimum absolute cm/s to decide to change states to RISING/FALLING
+    float rateDeltaMargin;
+
+    //minimum delta cm to change from FALLING straight to IDLE
+    float minFallingToIdleDelta;
 };
 
 class DetectionAlgorithm {
     private:
         DetectionSettings settings;
         CircularBuffer largeBuf;
-        CircularBuffer tempBuf;
+        CircularBuffer rateBuf;
         int evalCounter = 0;
 
-        int entranceCount = 0;
-        int exitCount = 0;
+        int incoming = 0;
+        int outgoing = 0;
+
+        unsigned long lastObservation = 0;
+
+        int observationsSinceEval = 0;
 
         DetectionState currentState = DetectionState::IDLE;
 
         DetectionState evalState();
+
+        float filterIncoming(float measurement);
+
+        void updateState(DetectionState newState);
     
     public:
-        DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), tempBuf(tempData, tdlen), settings(settings) {}
+        DetectionAlgorithm(float* largeData, int ldlen, float* tempData, int tdlen, DetectionSettings settings): largeBuf(largeData, ldlen), rateBuf(tempData, tdlen), settings(settings) {}
 
         DetectionState getCurrentState();
-        int getEntranceCount();
-        int getExitCount();
-        int getCurrentOccupancy();
+        int getIncoming();
+        int getOutgoing();
+        int getNetIncoming();
 
         void reset();
 
-        bool push(float measurement);
+        bool push(float measurement, unsigned long millis);
 };
