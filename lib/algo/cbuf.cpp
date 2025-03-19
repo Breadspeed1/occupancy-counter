@@ -40,6 +40,7 @@ float CircularBuffer::at(int i) {
 void CircularBuffer::clear() {
     size = 0;
     start = 0;
+    sum = 0;
 }
 
 bool CircularBuffer::isEmpty() {
