@@ -20,6 +20,10 @@ class CircularBuffer {
         void clear();
 };
 
+//represents the state of the algorithm
+//RISING means the distance returned by the sensor is increasing (someone walking out)
+//FALLING means the distance returned by the sensor is decreasing (someone walking in)
+//IDLE means it is just detecting the ground or someone standing still
 enum DetectionState {
     RISING,
     FALLING,
