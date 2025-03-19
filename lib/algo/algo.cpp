@@ -20,6 +20,8 @@ void DetectionAlgorithm::reset() {
     this->currentState = DetectionState::IDLE;
     rateBuf.clear();
     largeBuf.clear();
+    incoming = 0;
+    outgoing = 0;
 }
 
 float DetectionAlgorithm::filterIncoming(float measurement) {
